@@ -1,13 +1,15 @@
-import { Component, createElement } from 'react';
+import { Component } from 'react';
 import axios from 'axios';
-
+import FormError from '../Error/FormError';
 class AddProduct extends Component {
     constructor(props){
         super(props);
         this.state = {
             productName: '',
             productDesc: '',
-            productPrice: ''
+            productPrice: '',
+            errors: [],
+            productAdded: false
         };
     }
     createProduct = (data, cb) => {
@@ -24,9 +26,14 @@ class AddProduct extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log("submit");
-        this.createProduct(this.state, (res) => {
+        this.createProduct({
+            productName: this.state.productName,
+            productDesc: this.state.productDesc,
+            productPrice: this.state.productPrice
+        }, (res) => {
             console.log(res);
+            this.setState({errors: [res.data.message], productAdded:res.data.success});
+            document.getElementById('create-post-form').reset();
         });
     }
     handleChange = (e) => {
@@ -41,7 +48,8 @@ class AddProduct extends Component {
         <>  
             <div className="center-container">
                 <h2>Add Product</h2>
-                <form id="login-form" onSubmit={this.handleSubmit}>
+                <FormError errors={this.state.errors} productAdded={this.state.productAdded}/>
+                <form id="create-post-form" onSubmit={this.handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="username-label" className="form-label">Product Name</label>
                         <input 
@@ -57,7 +65,7 @@ class AddProduct extends Component {
                     <div className="mb-3">
                         <label htmlFor="password-field" className="form-label">Product Description</label>
                         <input 
-                            type="password"
+                            type="text"
                             className="form-control"
                             name="productDesc"
                             id="productDesc"
