@@ -2,7 +2,6 @@ const routes = require('express').Router();
 const productModel = require('../models/product');
 var sanitizer = require('sanitizer');
 routes.post('/api/create-product',  async (req, res) => {
-    console.log("REQ", sanitizer.escape(req.body.productName));
     const product = new productModel({
         product_name: sanitizer.escape(req.body.productName),
         product_description: sanitizer.escape(req.body.productDesc),

@@ -1,17 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 const Searchbar = (props) => {
     const [search, updateSearch] = useState('');
-    useEffect(() => {
-        console.log("search", search);
-      });
-    function handleSubmit(){
-        
+    function handleSubmit(e){
+        e.preventDefault();
+        console.log(search);
     }
     return(
         <>
-            <form id="search-product-form" onSubmit={event => handleSubmit(event.target)}>
+            <form id="search-product-form" onSubmit={e => handleSubmit(e)}>
                 <label>Search</label>
-                <input type="text" onChange={event => updateSearch(event.target.value)} name="search" required/> 
+                <input type="text" onChange={e => updateSearch(e.target.value)} name="search" required/> 
             </form>
         </>
     )
