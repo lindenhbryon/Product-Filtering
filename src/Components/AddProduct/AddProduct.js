@@ -26,6 +26,7 @@ function AddProduct() {
       return(
         <div className="center-container">
             <h2>Add Product</h2>
+            <FormError error={error} success={value}/>
             <form id="create-post-form" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username-label" className="form-label">Product Name</label>

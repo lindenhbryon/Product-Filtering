@@ -1,13 +1,10 @@
 function FormError(props){
-    const colorClass = props.productAdded === true ? 'alert alert-success' : 'alert alert-danger';
-    if(props.errors.length === 0){
+    if(props.error === null){
         return false;
     }
-    const listItems = props.errors.map((err, key) => {
-        return <div key={key} className={colorClass} role="alert">{err}</div>
-    });
+    const colorClass = props.success === true ? 'alert alert-success' : 'alert alert-danger';
     return(
-        <div>{listItems}</div> 
+        <div className={colorClass} role="alert">{props.error}</div>
     )
 }
 
