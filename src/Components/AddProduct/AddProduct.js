@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import FormError from '../Error/FormError';
 import axios from 'axios';
+import { useEffect } from 'react';
 import useInput from '../Helper/useInput';
 import useAsync from '../Helper/useAsync';
 function AddProduct() {
@@ -16,17 +16,29 @@ function AddProduct() {
             productPrice: productPrice
         });
     }
-    const { execute, status, value, error } = useAsync(fetchProducts, false);    
+    const { execute, status, returnValue, error } = useAsync(fetchProducts, false);    
 
     const handleSubmit = (e) => {
         e.preventDefault();
         execute();
     }
+    useEffect(() => {
+        if(returnValue === true){
+            resetProductName();
+            resetProductDesc();
+            resetProductPrice();
+        }
+    },  [
+            returnValue,
+            resetProductName,
+            resetProductDesc,
+            resetProductPrice
+        ]);
     
       return(
         <div className="center-container">
             <h2>Add Product</h2>
-            <FormError error={error} success={value}/>
+            <FormError error={error} success={returnValue}/>
             <form id="create-post-form" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username-label" className="form-label">Product Name</label>
@@ -63,7 +75,7 @@ function AddProduct() {
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">
-                    {status == 'pending' ? 'Adding Product..' : 'Add Product'}
+                    {status === 'pending' ? 'Adding Product..' : 'Add Product'}
                 </button>
             </form>
         </div>
