@@ -15,9 +15,10 @@ function ProductContainer(){
     
     return(
         <div>
-            <h2 style={{textAlign: 'center'}}>Products</h2>
+            <h2 className="products-header">Products</h2>
             <ul>
-                {error !== '' ? <p>error</p> : ''}
+                {error !== '' ? <p>Something went wrong whilst fetching products.</p> : ''}
+                {data.length == 0  ? <p className="no-products">There are currently no products.</p> : ''}
                 {data.map((item, key) => (
                     <ProductItem key={key} products={item} />
                 ))}

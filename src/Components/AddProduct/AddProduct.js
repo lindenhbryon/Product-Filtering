@@ -39,7 +39,7 @@ function AddProduct() {
       return(
         <div className="center-container">
             <h2>Add Product</h2>
-            <FormError error={error} success={status}/>
+            <FormError error={error}/>
             <form id="create-post-form" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username-label" className="form-label">Product Name</label>
@@ -55,14 +55,16 @@ function AddProduct() {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password-field" className="form-label">Product Description</label>
-                    <input 
+                    <textarea
                         type="text"
                         className="form-control"
                         name="productDesc"
                         id="productDesc"
+                        rows="8"
+                        cols="50"
                         required
                         {...bindProductDesc}
-                    />
+                    ></textarea>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password-field" className="form-label">Product Price</label>

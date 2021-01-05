@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Hook
+
 const useAsync = (asyncFunction, immediate = true) => {
     const [status, setStatus] = useState('idle');
     const [data, setData] = useState([]);
