@@ -16,29 +16,30 @@ function AddProduct() {
             productPrice: productPrice
         });
     }
-    const { execute, status, returnValue, error } = useAsync(fetchProducts, false);    
+    const { execute, status, error } = useAsync(fetchProducts, false);    
 
     const handleSubmit = (e) => {
         e.preventDefault();
         execute();
     }
     useEffect(() => {
-        if(returnValue === true){
+        if(status === 'success'){
             resetProductName();
             resetProductDesc();
             resetProductPrice();
         }
     },  [
-            returnValue,
             resetProductName,
             resetProductDesc,
-            resetProductPrice
-        ]);
+            resetProductPrice,
+            status
+        ]
+    );
     
       return(
         <div className="center-container">
             <h2>Add Product</h2>
-            <FormError error={error} success={returnValue}/>
+            <FormError error={error} success={status}/>
             <form id="create-post-form" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username-label" className="form-label">Product Name</label>

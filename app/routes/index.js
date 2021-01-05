@@ -21,10 +21,20 @@ routes.post('/api/create-product',  async (req, res) => {
     }
 });
 
-routes.get('/api/get-products',  (req, res) => {
-    res.send({
-        data: 'linden'
-    })
+routes.get('/api/get-products', async (req, res) => {
+    try {
+        await productModel.find({}, (err, data) => {
+            res.send({
+                success: true,
+                products: data,
+            });
+        });
+    } catch (error) {
+        res.send({
+            success: false,
+            message: 'Something went wrong whilst fetching products, please try again.'
+          });
+    }
 });
 
 
