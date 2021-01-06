@@ -37,5 +37,21 @@ routes.get('/api/get-products', async (req, res) => {
     }
 });
 
+routes.get('/api/delete-product/:productId', async (req, res) => {
+    try {
+        await productModel.deleteOne({_id: req.params.productId}, (err, data) => {
+            res.send({
+                success: true,
+                message: 'Product deleted successfully'
+            });
+        });
+    } catch (error) {
+        res.send({
+            success: false,
+            message: 'Something went wrong whilst deleting the product, please try again.'
+          });
+    }
+});
+
 
 module.exports = routes;
