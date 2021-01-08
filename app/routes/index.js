@@ -37,7 +37,7 @@ routes.get('/api/get-products', async (req, res) => {
     }
 });
 
-routes.get('/api/delete-product/:productId', async (req, res) => {
+routes.delete('/api/delete-product/:productId', async (req, res) => {
     try {
         await productModel.deleteOne({_id: req.params.productId}, (err, data) => {
             res.send({

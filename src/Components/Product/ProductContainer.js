@@ -13,7 +13,7 @@ function ProductContainer(){
         fetchProducts();
     }, []);   
     const fetchProducts = () => {
-        return ProductDataService.getAll()
+        ProductDataService.getAll()
         .then((res) => {
             setData(res.data.products);
             setLoading(true);
@@ -23,15 +23,12 @@ function ProductContainer(){
     }
 
     const deleteProduct = (e) => {
-        console.log(productId);
-        fetch('http://localhost:8080/api/delete-product/'+productId)
-        .then((res) => res.json())
+        ProductDataService.remove(productId)
         .then((res) => {
             setModalActive(false);
             fetchProducts();
-        })
-        .catch((err) => {
-            console.log("err");
+        }).catch((err) => {
+            console.log(err);
         });
     };
 

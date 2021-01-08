@@ -3,7 +3,7 @@ const getAll = () => {
     return http.get(`/get-products`);
 }
 const remove = id => {
-    return http.delete(`/delete-prodct/${id}`);
+    return http.delete(`/delete-product/${id}`);
 }
 const create = (data) => {
     return http.post(`/create-product`, data);
