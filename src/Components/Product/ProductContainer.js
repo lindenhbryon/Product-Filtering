@@ -9,6 +9,9 @@ function ProductContainer(){
     const [modalActive, setModalActive] = useState(false);
     
     useEffect(() =>{
+        fetchProducts();
+    }, []);   
+    const fetchProducts = () => {
         fetch('http://localhost:8080/api/get-products')
         .then((res) => res.json())
         .then((res) => {
@@ -18,19 +21,21 @@ function ProductContainer(){
         .catch((err) => {
             setError(err.message);
         });
-    }, []);   
+    }
 
     const deleteProduct = (e) => {
         console.log(productId);
         fetch('http://localhost:8080/api/delete-product/'+productId)
         .then((res) => res.json())
         .then((res) => {
-            
+            setModalActive(false);
+            fetchProducts();
         })
         .catch((err) => {
             console.log("err");
         });
     };
+
     const selectProduct = (e) => {
         const id = e.target.dataset.id;
         setProductId(id);

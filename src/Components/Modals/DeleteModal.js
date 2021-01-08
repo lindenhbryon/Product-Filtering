@@ -2,10 +2,9 @@ function DeleteModal(props){
     const active = props.modalActive === true ? {display: 'block'} : {};
     const toggleModal = (e) => {
         if(props.modalActive === true){
-            props.setActive(false)
+            props.setActive(false);
         }
     }
-    console.log("deleteprops", active);
     return(
         <div className="modal" style={active}>
             <div className="modal-dialog">
