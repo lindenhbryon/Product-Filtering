@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
 import DeleteModal from '../Modals/DeleteModal';
+import ProductDataService from '../../Services/ProductService';
 function ProductContainer(){
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
@@ -12,15 +13,13 @@ function ProductContainer(){
         fetchProducts();
     }, []);   
     const fetchProducts = () => {
-        fetch('http://localhost:8080/api/get-products')
-        .then((res) => res.json())
+        return ProductDataService.getAll()
         .then((res) => {
-            setData(res.products);
+            setData(res.data.products);
             setLoading(true);
+        }).catch((err) => {
+            setError(err.data.message);
         })
-        .catch((err) => {
-            setError(err.message);
-        });
     }
 
     const deleteProduct = (e) => {
