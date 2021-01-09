@@ -5,7 +5,7 @@ import ProductDataService from '../../Services/ProductService';
 function ProductContainer(){
     const [data, setData] = useState([]);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [productId, setProductId] = useState(null);
     const [modalActive, setModalActive] = useState(false);
     
@@ -16,9 +16,10 @@ function ProductContainer(){
         ProductDataService.getAll()
         .then((res) => {
             setData(res.data.products);
-            setLoading(true);
+            setLoading(false);
         }).catch((err) => {
-            setError(err.data.message);
+            setError('Something went wrong whilst fetching products');
+            setLoading(false);
         })
     }
 
@@ -29,6 +30,7 @@ function ProductContainer(){
             fetchProducts();
         }).catch((err) => {
             console.log(err);
+            
         });
     };
 
@@ -37,17 +39,11 @@ function ProductContainer(){
         setProductId(id);
         setModalActive(true);
     };
-
-
+    
     const ProjectsContent = () => {
-        if(data.length > 0){
+        if(loading === false && error !== ''){
             return (
                 <div>
-                    <DeleteModal 
-                        deleteProduct={deleteProduct}
-                        modalActive={modalActive}
-                        setActive={setModalActive}
-                    />
                     <div>
                         <h2 className="products-header">Products</h2>
                         <ul>
@@ -59,11 +55,18 @@ function ProductContainer(){
                     </div>
                 </div>
             );
-        }else { return false }
+        }else {
+            return null
+        }
     }
     
     return(
-        <div className={loading === false ? 'loading' : ''}>
+        <div className={loading === true ? 'loading' : ''}>
+            <DeleteModal 
+                deleteProduct={deleteProduct}
+                modalActive={modalActive}
+                setActive={setModalActive}
+            />
             <ProjectsContent />
         </div>  
     )
