@@ -1,37 +1,52 @@
-import FormError from '../Error/FormError';
-import axios from 'axios';
-import { useEffect } from 'react';
+import SectionError from '../Error/SectionError';
+import { useEffect, useState } from 'react';
 import useInput from '../Helper/useInput';
-import useAsync from '../Helper/useAsync';
+import ProductDataService from '../../Services/ProductService';
 function AddProduct() {
     const {value: productName, bind: bindProductName, reset: resetProductName} = useInput('');
     const {value: productDesc, bind: bindProductDesc, reset: resetProductDesc} = useInput('');
     const {value: productPrice, bind: bindProductPrice, reset: resetProductPrice} = useInput('');
+    const [error, setError] = useState(null);
+    const [status, setStatus] = useState('idle');
+    const [ createSuccess, setCreateSuccess ] = useState(false);
     
-    const fetchProducts = () => {
-        return axios
-        .post('http://localhost:8080/api/create-product', {
+    
+    const createProduct = () => {
+        setStatus('pending');
+        ProductDataService.create({
             productName: productName,
             productDesc: productDesc,
             productPrice: productPrice
+        }).then((res) => {
+            setError(res.data.message);
+            setCreateSuccess('success');
+            setStatus('finished');
+        }).catch((err) => {
+            setCreateSuccess('error');
+            setStatus('idle');
+            if(typeof err.data === 'undefined'){
+                setError('Something went wrong whilst attemping to add the product.');
+            }else {
+                setError(err.data.message);
+            }
         });
     }
-    const { execute, status, error } = useAsync(fetchProducts, false);    
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        execute();
+        createProduct();
     }
     useEffect(() => {
-        if(status === 'success'){
+        if(status === 'finished'){
             resetProductName();
             resetProductDesc();
             resetProductPrice();
+            setStatus('idle');
         }
     },  [
             resetProductName,
             resetProductDesc,
             resetProductPrice,
+            setStatus,
             status
         ]
     );
@@ -39,7 +54,7 @@ function AddProduct() {
       return(
         <div className="center-container">
             <h2>Add Product</h2>
-            <FormError error={error}/>
+            <SectionError error={error} status={createSuccess}/>
             <form id="create-post-form" onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="username-label" className="form-label">Product Name</label>

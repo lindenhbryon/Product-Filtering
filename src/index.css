@@ -16,6 +16,7 @@
   float: left;
   width: calc(31% - 6px);
   margin: 0px 28px 40px 0px;
+  min-height: 600px;
 }
 .card-img-top {
   background-color: rgb(134, 142, 150);
