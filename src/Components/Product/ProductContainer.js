@@ -1,31 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProductItem from './ProductItem';
 import DeleteModal from '../Modals/DeleteModal';
 import ProductDataService from '../../Services/ProductService';
 import SectionError from '../Error/SectionError';
-function ProductContainer(){
-    const [data, setData] = useState([]);
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(true);
+function ProductContainer(props){
     const [productId, setProductId] = useState(null);
     const [modalActive, setModalActive] = useState(false);
     const [deleteError, setDeleteError] = useState(null);
     const [deleteStatus, setDeleteStatus ] = useState('idle');
-    
-    useEffect(() =>{
-        fetchProducts();
-    }, []);   
-    const fetchProducts = () => {
-        ProductDataService.getAll()
-        .then((res) => {
-            setData(res.data.products);
-            setLoading(false);
-        }).catch((err) => {
-            console.log(err);
-            setError('Something went wrong whilst fetching products');
-            setLoading(false);
-        });
-    }
+    const { fetchProducts } = props;
 
     const deleteProduct = (e) => {
         setDeleteStatus('deleting');
@@ -48,15 +31,15 @@ function ProductContainer(){
     };
     
     const ProjectsContent = () => {
-        if(loading === false && error === ''){
+        if(props.loading === false && props.error === ''){
             return (
                 <div>
                     <div>
                         <h2 className="products-header">Products</h2>
                         <SectionError error={deleteError} status={deleteStatus} reset={setDeleteError}/>
                         <ul>
-                            {error !== '' ? <p>Something went wrong whilst fetching products.</p> : ''}
-                            {data.map((item, key) => (
+                            {props.error !== '' ? <p>Something went wrong whilst fetching products.</p> : ''}
+                            {props.data.map((item, key) => (
                                 <ProductItem key={key} products={item} selectProduct={selectProduct}/>
                             ))}
                         </ul>
@@ -69,7 +52,7 @@ function ProductContainer(){
     }
     
     return(
-        <div className={loading === true ? 'loading' : ''}>
+        <div className={props.loading === true ? 'loading' : ''}>
             <DeleteModal 
                 deleteProduct={deleteProduct}
                 modalActive={modalActive}

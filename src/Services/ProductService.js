@@ -1,6 +1,7 @@
 import http from '../http';                                                                                                                             
-const getAll = () => {
-    return http.get(`/get-products`);
+const getAll = (query) => {
+    const uri = `/get-products?search=${query}`;
+    return http.get(uri);
 }
 const remove = id => {
     return http.delete(`/delete-product/${id}`);
