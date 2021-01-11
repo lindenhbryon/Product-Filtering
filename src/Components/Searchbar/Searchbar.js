@@ -4,6 +4,9 @@ const Searchbar = (props) => {
     const [search, updateSearch] = useState('');
     const [recentSearches, setRecentSearches] = useState([]);
     const updateRecentSearches = (value) =>{
+        if(value === ''){
+            return false;
+        }
         if(recentSearches.length > 4){
             setRecentSearches([...recentSearches.slice(1, recentSearches.length), value]);    
         }else {
