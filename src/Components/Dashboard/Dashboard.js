@@ -26,6 +26,7 @@ function Dashboard(){
     
       return(
           <div>
+                <h2 className="products-header">Products</h2>
                 <div className="center-container">
                     <Searchbar fetchProducts={fetchProducts}/>
                 </div>

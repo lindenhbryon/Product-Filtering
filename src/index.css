@@ -18,6 +18,21 @@
   margin: 0px 28px 40px 0px;
   min-height: 600px;
 }
+.card-text {
+  height: 200px;
+  overflow-y: auto;
+}
+.recent-searches .recent-search-header{
+  text-align: center;
+  margin-bottom: 5px;
+}
+.breadcrumb-item{
+  cursor: pointer;
+  font-weight: 600;
+}
+.breadcrumb-item:hover{
+  color: #007bff;
+}
 .card-img-top {
   background-color: rgb(134, 142, 150);
   width:100%;

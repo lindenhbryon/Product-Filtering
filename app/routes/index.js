@@ -22,8 +22,15 @@ routes.post('/api/create-product',  async (req, res) => {
 });
 
 routes.get('/api/get-products', async (req, res) => {
+    let query = {};
+    //will need to modify this when more query params
+    //loop query paranms and build query
+    if(req.query.search !== ''){
+        const search = req.query.search;
+        query = {product_name: {$regex: search, $options: 'i'}};
+    }
     try {
-        await productModel.find({}, (err, data) => {
+        await productModel.find(query, (err, data) => {
             res.send({
                 success: true,
                 products: data,

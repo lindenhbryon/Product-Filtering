@@ -35,7 +35,6 @@ function ProductContainer(props){
             return (
                 <div>
                     <div>
-                        <h2 className="products-header">Products</h2>
                         <SectionError error={deleteError} status={deleteStatus} reset={setDeleteError}/>
                         <ul>
                             {props.error !== '' ? <p>Something went wrong whilst fetching products.</p> : ''}
